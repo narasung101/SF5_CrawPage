@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC  "-//mybatis.org//DTD Config 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	<typeAliases>
+		<typeAlias alias="Customer"	type="com.t1.web.customer.Customer" />
+		<typeAlias alias="Board" type="com.t1.web.board.Board" />
+		<typeAlias alias="PageProxy" type="com.t1.web.proxy.PageProxy" />
+	</typeAliases>
+</configuration>

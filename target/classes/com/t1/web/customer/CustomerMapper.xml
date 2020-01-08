@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.t1.web.customer.CustomerMapper">
+	
+	<select id="customerCount" resultType="int">
+		select count(*) count from customer
+	</select>
+	
+	<insert id="insertCustomerJoin" parameterType="Customer">
+		insert into customer(uid, upw)
+			values(#{uid}, #{upw})
+	</insert>
+	
+	<select id="selectCustomerLogin" parameterType="Customer" resultType="Customer" >
+		select * from customer where uid like #{uid} and upw like #{upw};			
+	</select>
+	
+	<!--
+	
+	
+	 <select id="selectByIdPw" resultType="Customer">
+        SELECT * FROM CUSTOMER WHERE MID LIKE #{mid} AND MPW LIKE #{mpw}
+    </select>
+
+    <insert id="insertCustomer" parameterType="Customer">
+		INSERT INTO CUSTOMER (MID, MPW, MNAME )
+        VALUES ( #{mid}, #{mpw}, #{mname} )
+    </insert>
+    
+    <select id="existId" resultType="int">
+        SELECT COUNT(*) FROM CUSTOMER WHERE MID LIKE #{mid}
+    </select>
+    
+	
+	  -->
+   
+
+</mapper>

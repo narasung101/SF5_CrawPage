@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.t1.web.board.BoardMapper">
+	<insert id="insertBoardWhite" parameterType="Board">
+		INSERT INTO board(title, content, writer)
+		VALUES (#{title}, #{content}, #{writer})
+	</insert>
+
+	<select id="selectBoardAllCount" resultType="int">
+		SELECT COUNT(*) COUNT FROM BOARD
+	</select>
+
+	<!-- <select id="selectAllBoard" resultType="Board"> SELECT * FROM board 
+		ORDER BY bno desc </select> -->
+
+
+	<select id="selectAllBoard" resultType="Board"
+		parameterType="PageProxy">
+
+		SELECT * FROM board
+		WHERE #{option} like #{search}
+		ORDER BY bno DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<!-- <select id="selectAllBoard" resultType="Board"> select * from board 
+		order by bno desc limit 10 </select> -->
+
+	<select id="listPage" resultType="Board"
+		parameterType="PageProxy">
+		select * from board order by bno desc limit #{pageSize}
+	</select>
+	
+	
+
+	<!-- <select id="selectByIdPw" resultType="Customer"> SELECT * FROM CUSTOMER 
+		WHERE MID LIKE #{mid} AND MPW LIKE #{mpw} </select> <insert id="insertCustomer" 
+		parameterType="Customer"> INSERT INTO CUSTOMER (MID, MPW, MNAME ) VALUES 
+		( #{mid}, #{mpw}, #{mname} ) </insert> <select id="existId" resultType="int"> 
+		SELECT COUNT(*) FROM CUSTOMER WHERE MID LIKE #{mid} </select> -->
+
+
+</mapper>
