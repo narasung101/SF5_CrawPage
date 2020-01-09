@@ -24,6 +24,24 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return mapper.selectBoardAllCount();
 	}
+
+	@Override
+	public Board contentRead(int param) {
+		// TODO Auto-generated method stub
+		return mapper.selectBoardRead(param);
+	}
+
+	@Override
+	public void contentUpdate(Board param) {
+		mapper.updateBoard(param);
+		
+	}
+
+	@Override
+	public void deleteBoard(int param) {
+		mapper.deleteBoard(param);
+		
+	}
 	
 	
 

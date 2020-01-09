@@ -19,11 +19,14 @@
 
 	<select id="selectAllBoard" resultType="Board"
 		parameterType="PageProxy">
-
-		SELECT * FROM board
+		SELECT A.* 
+		FROM 
+			(SELECT * 
+			 FROM board
+			 ORDER BY bno DESC
+			 LIMIT #{startRow}, #{pageSize}) A
 		WHERE #{option} like #{search}
-		ORDER BY bno DESC
-		LIMIT #{startRow}, #{pageSize}
+	 	
 	</select>
 
 	<!-- <select id="selectAllBoard" resultType="Board"> select * from board 
