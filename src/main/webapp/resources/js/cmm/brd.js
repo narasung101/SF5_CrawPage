@@ -24,11 +24,10 @@ brd = (() => {
 		$('body').empty()
 		
 		list({ pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val()})
-		
-
+	
 	}
 	let white = function () {
-
+				
 		$('#btn_brd').click(() => {
 			alert('게시판 글쓰기 버튼 클릭')
 			// $('body').empty()
@@ -43,14 +42,13 @@ brd = (() => {
 						title: $('#write_form input[name="title"]').val(),
 						writer: $('#write_form input[name="writer"]').val(),
 						content: $('#write_form textarea[name="content"]').val()
-
-					}),
+						}),
 					dataType: 'json',
 					contentType: 'application/json',
 					success: d => {
 						alert('글쓰기 성공')
 						// list({ pageSize: 5, nowPage: 0 })
-						 list({ pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val() })
+						 list({pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val()})
 
 					},
 					error: e => {
@@ -62,47 +60,77 @@ brd = (() => {
 		})
 	}
 	
-	let content = function () {
-		$
+	let content = function (x) {
 		
-//		$('#btn_brd').click(() => {
-//			alert('게시판 글쓰기 버튼 클릭')
-//			// $('body').empty()
-//			$('body').html(brd_vue.white())
-//			$('#btn_write').click(e => {
-//				e.preventDefault()
-//				alert('글 작성 페이지 글쓰기 버튼 클릭')
-//				$.ajax({
-//					url: _ + '/boards/',
-//					type: 'POST',
-//					data: JSON.stringify({
-//						title: $('#write_form input[name="title"]').val(),
-//						writer: $('#write_form input[name="writer"]').val(),
-//						content: $('#write_form textarea[name="content"]').val()
-//
-//					}),
-//					dataType: 'json',
-//					contentType: 'application/json',
-//					success: d => {
-//						alert('글쓰기 성공')
-//						// list({ pageSize: 5, nowPage: 0 })
-//						list({ pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val() })
-//
-//					},
-//					error: e => {
-//						alert('AJAX 실패')
-//					}
-//				})
-//			})
-//
-//		})
+		$('body').empty()
+		$('body').html(brd_vue.content())
+		
+						console.log(x.read)
+						$('#content_form input[name="title"]').val(x.read.title)
+						$('#content_form input[name="writer"]').val(x.read.writer)
+						$('#content_form textarea[name="content"]').val(x.read.content)
+		
+		
+		$('#btn_updateForm').click(e=>{
+			e.preventDefault()
+			alert('수정 클릭')
+			update(x)
+		})
+		
+		$('#btn_backList1').click(()=>{
+			alert('리스트 클릭')
+		})
+	
 	}
 	
-	let update = function(){
+	let update = function(x){
+		$('body').empty()
+		$('body').html(brd_vue.update())
+		alert('bno 넘어옴' + x.read.bno)
+				
+		$('#update_form input[name="title"]').val(x.read.title)
+		$('#update_form input[name="writer"]').val(x.read.writer)
+		$('#update_form textarea[name="content"]').val(x.read.content)
+		
+		$('#btn_updateWrite').click(e=> {
+			alert('수정 버튼 클릭' + x.read.title +',' + x.read.content)
+			e.preventDefault()
+				$.ajax({
+					url: _ + '/boards/update',
+					type: 'PUT',
+					data: JSON.stringify({
+						bno : x.read.bno,
+						title: $('#update_form input[name="title"]').val(),
+						content: $('#update_form textarea[name="content"]').val()
+
+					}),
+					dataType: 'json',
+					contentType: 'application/json',
+					success: d => {
+						alert('AJAX 성공')
+						// list({ pageSize: 5, nowPage: 0 })
+						list({pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val()})
+					},
+					error: e => {
+						alert('AJAX 실패')
+					}
+				})
+		
+		})
+		
+		$('#btn_deleteWrite').click((e)=>{
+			e.preventDefault()
+			alert('삭제버튼 클릭 bno 값 넘어옴 :' + x.read.bno)
+			$.getJSON(_ + '/boards/delete/'+ x.read.bno, d =>{
+			alert('getJSON 성공' +d)})
+			list({pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val()})
+		})
+		
 		
 	}
 	
 	let deleteBoard = function(){
+				
 		
 	}
 
@@ -162,7 +190,16 @@ brd = (() => {
 			$.each(d.list, (i, j) => {
 				var tr = $("<tr></tr>").appendTo("#tbody");
 				$(`<td></td>`).text(j.bno).appendTo(tr);
-				$(`<td><a href="#">${j.title}</a></td>`).appendTo(tr);
+				$(`<td><a href="#">${j.title}</a></td>`).appendTo(tr)
+				.click(e=>{
+					e.preventDefault()
+					alert('bno 확인'+ j.bno)
+					$.getJSON(_ + '/boards/contentView/'+j.bno, d =>{
+						
+						content(d)
+						
+					})
+				});
 				$(`<td></td>`).text(j.writer).appendTo(tr);
 
 			})
@@ -204,7 +241,6 @@ brd = (() => {
 // list({ pageSize: 5, nowPage: d.pager.nextBlock })
 						 list({pageSize: 5, nowPage: d.pager.nextBlock, option:$('#selectOption').val(), search: $('#search').val()})
 
-
 					})
 			}
 		
@@ -244,28 +280,8 @@ brd = (() => {
 				
 
 	}
-
 	let crawling = () => {
-
-
-		// $('#btn_crawlTest').click(e => {
-		// e.preventDefault()
-		// alert('클릭됨')
-		// $.getJSON(_ + '/boards/crawl', d => {
-		// alert('JSON 성공' + d.list)
-		// $('#tbody').empty()
-
-
-		// $.each(d.list, (i, j) => {
-
-		// var tr = $("<tr></tr>").appendTo("#tbody");
-		// $("<td></td>").text(j).appendTo(tr);
-
-		// })
-
-		// })
-		// })
-
+	
 		$('#btn_crawlBugs').click(e => {
 			e.preventDefault()
 			alert('클릭됨')

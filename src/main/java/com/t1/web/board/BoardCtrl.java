@@ -34,7 +34,7 @@ public class BoardCtrl extends Proxy {
 
 	@PostMapping("/")
 	public Map<?, ?> white(@RequestBody Board param) {
-		System.out.println("board param값 넘어옴 :" + param);
+		System.out.println("글쓰기 param값 넘어옴 :" + param);
 		service.insertBoardWhite(param);
 
 		map.clear();
@@ -46,7 +46,7 @@ public class BoardCtrl extends Proxy {
 	@GetMapping("/list/{pageSize}/{nowPage}/{option}/{search}")
 	public Map<?, ?> listPage(@PathVariable("pageSize") String pageSize, @PathVariable("nowPage") String nowPage,
 			@PathVariable("option") String option, @PathVariable("search") String search) {
-		//1
+		
 		System.out.println("페이지 사이즈 넘어옴" + pageSize);
 		System.out.println("나우 페이지 넘어옴" + nowPage);
 		System.out.println("옵션 넘어옴" + option);
@@ -71,32 +71,32 @@ public class BoardCtrl extends Proxy {
 		return map;
 	}
 
-	@GetMapping("/content")
-	public Map<?, ?> content(@PathVariable String param) {
-		System.out.println("int param값 넘어옴 :" + param);
-
+	@GetMapping("/contentView/{bno}")
+	public Map<?, ?> detailView(@PathVariable String bno) {
+		System.out.println("int param값 넘어옴 :" + bno);
+	
 		map.clear();
-		map.put("msg", "WHITE SUCCESS");
+		map.put("read", service.readBoard(Integer.parseInt(bno)));
 
 		return map;
 	}
 
 	@PutMapping("/update")
 	public Map<?, ?> update(@RequestBody Board param) {
-		System.out.println("board param값 넘어옴 :" + param);
-
+		System.out.println("update param값 넘어옴 :" + param);
+		service.updateBoard(param);
 		map.clear();
-		map.put("msg", "WHITE SUCCESS");
-
+		map.put("msg", "UPDATE SUCCESS");
+		
 		return map;
 	}
 
-	@DeleteMapping("/delete")
-	public Map<?, ?> update(@RequestBody int param) {
-		System.out.println("board param값 넘어옴 :" + param);
-
+	@GetMapping("/delete/{bno}")
+	public Map<?, ?> delete(@PathVariable String bno) {
+		System.out.println("DELETE bno값 넘어옴 :" + bno);
+		service.deleteBoard(Integer.parseInt(bno));
 		map.clear();
-		map.put("msg", "WHITE SUCCESS");
+		map.put("msg", "DELETE SUCCESS");
 
 		return map;
 	}

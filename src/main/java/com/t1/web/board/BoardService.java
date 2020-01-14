@@ -12,7 +12,7 @@ public interface BoardService {
 	public void insertBoardWhite(Board param);
 	public List<Board> selectAllBoard(PageProxy param);
 	public int boardAllCount();
-	public Board contentRead(int param);
-	public void contentUpdate(Board param);
+	public Board readBoard(int param);
+	public void updateBoard(Board param);
 	public void deleteBoard(int param);
 }

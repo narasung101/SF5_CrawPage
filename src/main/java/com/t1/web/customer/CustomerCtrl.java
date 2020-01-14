@@ -17,7 +17,7 @@ public class CustomerCtrl {
 	
 	@PostMapping("/")
 	public Map<?, ?> join(@RequestBody Customer param) {
-		System.out.println("param 값" + param.getUid()  + param.getUpw());
+		System.out.println("조인 param 값" + param.getUid()  + param.getUpw());
 		service.insertCustomerJoin(param);
 		map.clear();
 		map.put("msg", "success");

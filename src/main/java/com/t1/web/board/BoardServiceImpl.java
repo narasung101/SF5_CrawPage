@@ -26,13 +26,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Board contentRead(int param) {
+	public Board readBoard(int param) {
 		// TODO Auto-generated method stub
 		return mapper.selectBoardRead(param);
 	}
-
+	
 	@Override
-	public void contentUpdate(Board param) {
+	public void updateBoard(Board param) {
 		mapper.updateBoard(param);
 		
 	}
@@ -42,6 +42,7 @@ public class BoardServiceImpl implements BoardService{
 		mapper.deleteBoard(param);
 		
 	}
+
 	
 	
 
