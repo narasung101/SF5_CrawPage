@@ -5,7 +5,7 @@
 
 <mapper namespace="com.t1.web.board.BoardMapper">
 
-	<insert id="insertBoardWhite" parameterType="Board">
+	<insert id="insertBoardWrite" parameterType="Board">
 		INSERT INTO
 		board(title, content, writer)
 		VALUES (#{title}, #{content}, #{writer})
@@ -15,7 +15,7 @@
 		SELECT COUNT(*)
 		COUNT FROM BOARD
 	</select>
-
+	
 	<select id="selectAllBoard" resultType="Board"
 		parameterType="PageProxy">
 		SELECT A.*
@@ -25,7 +25,42 @@
 		ORDER BY bno DESC
 		LIMIT
 		#{startRow}, #{pageSize}) A
-		WHERE #{option} like #{search}
+		
+	</select>
+
+	<select id="selectAllBoardByBno" resultType="Board"
+		parameterType="PageProxy">
+		SELECT A.*
+		FROM
+		(SELECT *
+		FROM board
+		ORDER BY bno DESC
+		LIMIT
+		#{startRow}, #{pageSize}) A
+		WHERE bno like #{search}
+	</select>
+	<select id="selectAllBoardByTitle" resultType="Board"
+		parameterType="PageProxy">
+		SELECT A.*
+		FROM
+		(SELECT *
+		FROM board
+		ORDER BY bno DESC
+		LIMIT
+		#{startRow}, #{pageSize}) A
+		WHERE title like #{search}
+	</select>
+	
+	<select id="selectAllBoardByWriter" resultType="Board"
+		parameterType="PageProxy">
+		SELECT A.*
+		FROM
+		(SELECT *
+		FROM board
+		ORDER BY bno DESC
+		LIMIT
+		#{startRow}, #{pageSize}) A
+		WHERE writer like #{search}
 	</select>
 
 	<select id="selectBoardRead" parameterType="int"

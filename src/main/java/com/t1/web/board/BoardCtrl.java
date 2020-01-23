@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.t1.web.proxy.Inventory;
 import com.t1.web.proxy.PageProxy;
 import com.t1.web.proxy.Proxy;
 import com.t1.web.proxy.CrawlingProxy;
+import com.t1.web.proxy.FileProxy;
 
 @RestController
 @RequestMapping("/boards")
@@ -31,11 +33,12 @@ public class BoardCtrl extends Proxy {
 	CrawlingProxy crawler;
 	@Autowired
 	PageProxy pager;
+	@Autowired FileProxy filemgr;
 
 	@PostMapping("/")
-	public Map<?, ?> white(@RequestBody Board param) {
+	public Map<?, ?> write(@RequestBody Board param) {
 		System.out.println("글쓰기 param값 넘어옴 :" + param);
-		service.insertBoardWhite(param);
+		service.insertBoardWrite(param);
 
 		map.clear();
 		map.put("msg", "WHITE SUCCESS");
@@ -81,7 +84,7 @@ public class BoardCtrl extends Proxy {
 		return map;
 	}
 
-	@PutMapping("/update")
+	@DeleteMapping("/update")
 	public Map<?, ?> update(@RequestBody Board param) {
 		System.out.println("update param값 넘어옴 :" + param);
 		service.updateBoard(param);
@@ -111,6 +114,12 @@ public class BoardCtrl extends Proxy {
 	@GetMapping("/crawlBugs")
 	public ArrayList<HashMap<String, String>> bug() {
 		return crawler.bugsCrawling();
+	}
+	
+	@PostMapping("/fileupload")
+	public void fileupload(MultipartFile[] uploadFile) {
+		System.out.println("uploadFile 넘어옴" + uploadFile);
+		filemgr.fileupload(uploadFile);
 	}
 
 }

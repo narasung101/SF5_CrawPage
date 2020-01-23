@@ -11,7 +11,7 @@ brd_vue = {
 	`
 	},
 
-	white: function () {
+	write: function () {
 		return `<div class="container-fluid" style="width:80%">
 		<h1>글 작성</h1>
 		<form id="write_form">
@@ -27,10 +27,9 @@ brd_vue = {
 		 </div>
 		 </div>
 		
-		<input id="btn_write" name="write" type="submit" class="btn btn-primary"  value="글쓰기"/>
-	
-	
-		<input type="reset" class="btn btn-danger"  value="취소"/>
+		<input id="btn_write" type="submit" class="btn btn-primary"  value="글쓰기"/>
+		<input id="btn_cancel" type="reset" class="btn btn-danger" value="취소"/>
+		<input id="add_file" type="button" class="btn btn-primary"  value="파일첨부"/>
 		
 		</div>
 		</form>

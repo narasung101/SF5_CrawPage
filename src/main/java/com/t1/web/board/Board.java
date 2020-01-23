@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Component
 public class Board {
-	private String bno, title, content, writer, bdate; 
-	private int bcount;
+	private String bno, title, content, writer, bdate, bcount; 
+	
 }

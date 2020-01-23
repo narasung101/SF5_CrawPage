@@ -26,12 +26,15 @@ brd = (() => {
 		list({ pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val()})
 	
 	}
-	let white = function () {
-				
-		$('#btn_brd').click(() => {
+	let write = function () {
+			
+		$('#btn_brd').click((e) => {
+			e.preventDefault()
 			alert('게시판 글쓰기 버튼 클릭')
-			// $('body').empty()
-			$('body').html(brd_vue.white())
+			
+			$('body').empty()
+			$('body').html(brd_vue.write())				
+				
 			$('#btn_write').click(e => {
 				e.preventDefault()
 				alert('글 작성 페이지 글쓰기 버튼 클릭')
@@ -55,10 +58,78 @@ brd = (() => {
 						alert('AJAX 실패')
 					}
 				})
-			})
+			})			
+			
+			$(`<div id="myModal" class="modal">
 
+							  <!-- Modal content -->
+							  <div class="modal-content">
+							    <span class="close">&times;</span>
+							    <form>
+							    <input id="fileUpload" type="file"/>
+							    <button id="btn_fileCheck">확인</button>
+							    <button id="btn_fileCancel">취소</button>
+							    </form>
+							  </div>
+							
+							</div>`).appendTo('body')	
+			
+			$('#add_file').click(e=>{
+				e.preventDefault()
+				alert('>>>> ')
+				const modal = document.getElementById("myModal");
+				modal.style.display = "block";
+				
+				const span = document.getElementsByClassName("close")[0];
+				span.onclick = function() {
+					  modal.style.display = "none";
+					}
+				
+				window.onclick = function(event) {
+					  if (event.target == modal) {
+					    modal.style.display = "none";
+					  }
+					}			
+				
+			})
+			$('#btn_fileCheck').click(e=>{
+				e.preventDefault()
+				alert('확인')
+				let formData = new FormData()
+				let files = $('#fileUpload')[0].files
+
+				let i = 0
+				for(; i< files.length; i++){
+					formData.append("uploadFile", files[i])
+				}
+				
+				$.ajax({
+					url : _+'/boards/fileupload',
+					processData : false,
+					contentType : false,
+					data : formData,
+					type : 'POST',
+					success : d => {
+						alert("파일업로드 성공")
+						
+					},
+					error : e => {
+						alert('파일 업로드 실패')
+					}
+				})
+				
+				
+			})
+			
+			$('#btn_cancel').click(e=>{
+				e.preventDefault()
+				alert('취소버튼 클릭')
+			})
+			
 		})
+		
 	}
+
 	
 	let content = function (x) {
 		
@@ -118,6 +189,12 @@ brd = (() => {
 		
 		})
 		
+		
+		deleteBoard()
+		
+	}
+	
+	let deleteBoard = function(x){
 		$('#btn_deleteWrite').click((e)=>{
 			e.preventDefault()
 			alert('삭제버튼 클릭 bno 값 넘어옴 :' + x.read.bno)
@@ -125,12 +202,6 @@ brd = (() => {
 			alert('getJSON 성공' +d)})
 			list({pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val()})
 		})
-		
-		
-	}
-	
-	let deleteBoard = function(){
-				
 		
 	}
 
@@ -142,7 +213,6 @@ brd = (() => {
 			$(`
 		<div id="wrapper">
 		<h2 id="btn_list">게시글 목록 페이지</h2>
-		<h2 id="btn_crawlTest">테스트 크롤링 페이지</h2>
 		<h2 id="btn_crawlBugs">벅스 크롤링 페이지</h2>
 
 		<div id="search_form">
@@ -175,20 +245,22 @@ brd = (() => {
 		<button id ="btn_brd2">삭제</button>
 		</div>
 		`).appendTo('body')
-	
-		white()
-		crawling()
 		
+			
 		$('#btn_list').click(e => {
 		e.preventDefault()
-		$('#crawlTab').remove()
-		$('#tmain').remove()
-		// list({ pageSize: 5, nowPage: 0 })
-		list({ pageSize: 5, nowPage: 0, option:$('#selectOption').val(), search: $('#search').val() })
+		$('#crawlTab').empty()
+		$('#tmain').empty()
+		/list({ pageSize: 5, nowPage: 0 })
+		// list({ pageSize: 5, nowPage: 0, option:$('#selectOption').val(),
+		// search: $('#search').val()})
+		
 		})
-
+		write()
+		crawling()
+									
 			$.each(d.list, (i, j) => {
-				var tr = $("<tr></tr>").appendTo("#tbody");
+				var tr = $(`<tr></tr>`).appendTo("#tbody");
 				$(`<td></td>`).text(j.bno).appendTo(tr);
 				$(`<td><a href="#">${j.title}</a></td>`).appendTo(tr)
 				.click(e=>{
@@ -210,7 +282,7 @@ brd = (() => {
 					.click((e) => {
 						e.preventDefault()
 						alert('이전 페이지 클릭' + d.pager.prevBlock)
-// list({pageSize:5, nowPage:d.pager.prevBlock})
+			// list({pageSize:5, nowPage:d.pager.prevBlock})
 						 list({ pageSize: 5, nowPage: d.pager.prevBlock, option:$('#selectOption').val(), search: $('#search').val() })
 					})
 			}
@@ -254,7 +326,7 @@ brd = (() => {
 		
 			$('#btn_page_size').click(e => {
 				e.preventDefault()
-// list({ pageSize: $('#pageSize').val(), nowPage: 0 })
+				// list({ pageSize: $('#pageSize').val(), nowPage: 0 })
 				 list({ pageSize: $('#pageSize').val(), nowPage: 0, option:$('#selectOption').val(), search: $('#search').val() })
 			})
 			
@@ -285,7 +357,7 @@ brd = (() => {
 		$('#btn_crawlBugs').click(e => {
 			e.preventDefault()
 			alert('클릭됨')
-			$('#crawlTab').remove()
+			$('#crawlTab').empty()
 			$('<table id="crawlTab"><tr id="crawlTabTr"></tr></table>')
 				.css({
 					width: '80%',

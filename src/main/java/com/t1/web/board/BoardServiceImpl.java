@@ -10,8 +10,8 @@ import com.t1.web.proxy.PageProxy;
 public class BoardServiceImpl implements BoardService{
 	@Autowired BoardMapper mapper;
 	@Override
-	public void insertBoardWhite(Board param) {
-		mapper.insertBoardWhite(param);		
+	public void insertBoardWrite(Board param) {
+		mapper.insertBoardWrite(param);		
 	}
 		
 	@Override
@@ -41,6 +41,24 @@ public class BoardServiceImpl implements BoardService{
 	public void deleteBoard(int param) {
 		mapper.deleteBoard(param);
 		
+	}
+
+	@Override
+	public List<Board> searchBno(PageProxy param) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllBoardByBno(param);
+	}
+
+	@Override
+	public List<Board> searchTitle(PageProxy param) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllBoardByTitle(param);
+	}
+
+	@Override
+	public List<Board> searchWriter(PageProxy param) {
+		// TODO Auto-generated method stub
+		return mapper.selectAllBoardByWriter(param);
 	}
 
 	

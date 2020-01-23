@@ -10,11 +10,15 @@ import com.t1.web.proxy.PageProxy;
 
 @Repository
 public interface BoardMapper {
-	public void insertBoardWhite(Board param);
+	public void insertBoardWrite(Board param);
 	public List<Board> selectAllBoard(PageProxy param);
 	public int selectBoardAllCount();
 	public Board selectBoardRead(int param);
 	public void updateBoard(Board param);
 	public void deleteBoard(int param);
+	public List<Board> selectAllBoardByBno(PageProxy param);
+	public List<Board> selectAllBoardByTitle(PageProxy param); 
+	public List<Board> selectAllBoardByWriter(PageProxy param); 
+	
 	
 }
